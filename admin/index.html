@@ -20,7 +20,7 @@
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
             <img src="images/2.jpg" alt="person">
-            <span>欢迎&nbsp;&nbsp;李思思</span>
+            <span>欢迎&nbsp;&nbsp;<i>李思思</i></span>
             <b>管理员</b>
         </div>
         <!-- 左侧导航栏 -->
@@ -54,5 +54,30 @@
 
         </div>
     </div>
+    <script src="./js/http.js"></script>
+    <script>
+        $(function(){
+            //  一进到后台首页，就应该获取登录信息
+            // 发送ajax请求，获取个人信息
+            $.ajax({
+                type:'get',
+                // url:'http://localhost:8080/api/v1/admin/user/info',
+                url:BigNew.user_info,
+                success:function(backData){
+                    console.log(backData);
+                    $('.user_info>span>i').text(backData.data.nickname);
+                    $('.user_info>img').attr('src',backData.data.userPic);
+                    $('.user_center_link>img').attr('src',backData.data.userPic);
+                }
+            });
+            // 2.退出登录
+            // 2.1 删除token
+            // 2.2 跳转到登录页
+            $('.logout').on('click',function(){
+                localStorage.removeItem('token');
+                window.location.href = './login.html'
+            });
+        })
+    </script>
 </body>
 </html>
